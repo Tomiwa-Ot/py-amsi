@@ -1,40 +1,87 @@
+#!/usr/bin/env python3
+
+"""
+Name: py-amsi (v1.0)
+Description: Scan strings and files using the windows antimalware interface
+Author: Olorunfemi-Ojo Tomiwa
+License: MIT
+© Copyright 2022
+"""
+
 import os
 import sys
 import ctypes
 
+# AMSI return codes & their meanings
+STATUS = {
+    'AMSI_RESULT_CLEAN' : 0,
+    'AMSI_RESULT_NOT_DETECTED' : 1,
+    'AMSI_RESULT_BLOCKED_BY_ADMIN_START' : 16384,
+    'AMSI_RESULT_BLOCKED_BY_ADMIN_END' : 20479,
+    'AMSI_RESULT_DETECTED' :  32768
+}
 
-class Amsi:
+# Further description of AMSI return codes
+MESSAGE = {
+    STATUS['AMSI_RESULT_CLEAN'] : 'File is clean',
+    STATUS['AMSI_RESULT_NOT_DETECTED'] : 'No threat detected',
+    STATUS['AMSI_RESULT_BLOCKED_BY_ADMIN_START'] : 'Threat is blocked by the administrator',
+    STATUS['AMSI_RESULT_BLOCKED_BY_ADMIN_END'] : 'Threat is blocked by the administrator',
+    STATUS['AMSI_RESULT_DETECTED'] : 'File is considered malware',
+    5 : 'N/A'
+}
 
-    AMSI_RESULT = [
-        'No malware detected',
-        'Malware detected',
-        'Amsi initialisation failed',
-        'Amsi failed to open session',
-        'Amsi string scan failed',
-        'Amsi buffer scan failed'
-    ]
+# Load DLL to access AMSI functions
+dll = ctypes.CDLL(os.path.join(
+    os.path.dirname(__file__),
+    'amsiscanner.dll'
+))
 
-    dll = ctypes.CDLL("amsiscanner.dll")
+def scan_file(path, debug=False):
+    """
+    Scans a buffer-full content for malware
 
-    @staticmethod
-    def scan_bytes(bytes, name):
-        result = Amsi.dll.scanBytes(bytes, len(bytes), name)
-        print(Amsi.AMSI_RESULT[result])
-        return result
+    Arguments
+        path (str):   path of the file to be scanned
+        debug (bool): show debug messages (default=False, optional)
+    
+    Returns
+        dictionary : 
+            Sample Size = String size
+            Risk Level  = Risk level stated by the AMSI provider
+            Message     = AMSI response
+    """
+    if not os.path.exists(path):
+        raise Exception(f'No such file: {path}')
+    file = open(path, 'rb')
+    file_bytes = file.read()
+    file.close()
+    result = dll.scanBytes(str(file_bytes), len(str(file_bytes)), os.path.basename(path), int(debug))
+    return {
+        "Sample size" : len(str(file_bytes)),
+        "Risk Level" : result,
+        "Message" : MESSAGE[result]
+    }
+    
 
-    @staticmethod
-    def scan_file(path):
-        if not os.path.exists(path):
-            raise Exception(f'No such file: {path}')
-        file = open(path, 'rb')
-        bytes = file.read()
-        file.close()
-        result = Amsi.dll.scanBytes(bytes, len(bytes), os.path.basename(path))
-        print(Amsi.AMSI_RESULT[result])
-        return result
+def scan_string(text, name, debug=False):
+    """
+    Scans a string for malware
 
-    @staticmethod
-    def scan_string(text, name):
-        result = Amsi.dll.scanString(text, name)
-        print(Amsi.AMSI_RESULT[result])
-        return result
+    Arguments
+        text (str):   string to be scanned
+        name (str):   a name for the string
+        debug (bool): show debug messages (default=False, optional)
+    
+    Returns
+        dictionary : 
+            Sample Size = String size
+            Risk Level  = Risk level stated by the AMSI provider
+            Message     = AMSI response
+    """
+    result = dll.scanString(text, name, int(debug))
+    return {
+        "Sample size" : len(text),
+        "Risk Level" : result,
+        "Message" : MESSAGE[result]
+    }

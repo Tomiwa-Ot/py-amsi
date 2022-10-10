@@ -1,19 +1,11 @@
 #!/usr/bin/env python3
 
-# from glob import glob
 from setuptools import setup, find_packages
-# from pybind11.setup_helpers import Pybind11Extension/
 
 VERSION = 1.0
 DESCRIPTION = 'Access windows anitmalware interface using python'
-LONG_DESCRIPTION = ''
-
-# ext_modules = [
-#     Pybind11Extension(
-#         "amsiscanner",
-#         sorted(glob("src/pyamsi/scanner.cpp"))
-#     ),
-# ]
+with open('README.md', 'r', encoding = 'utf-8') as fh:
+    long_description = fh.read()
 
 setup(
     name='py-amsi',
@@ -23,9 +15,11 @@ setup(
     author_email='ot.server1@outlook.com',
     description=DESCRIPTION,
     long_description_content_type='text/markdown',
-    long_description=LONG_DESCRIPTION,
-    packages=find_packages('src'),
-    package_dir={'': 'src'},
+    long_description=long_description,
+    package_dir={'':'src'},
+    packages=find_packages(where='src'),
+    include_package_data=True,
+    package_data={"pyamsi": ['amsiscanner.dll']},
     url='https://github.com/Tomiwa-Ot/py-amsi',
-    keywords=['amsi', 'python-amsi', 'pyamsi'],
+    keywords=['amsi', 'python-amsi', 'pyamsi']
 )
