@@ -4,8 +4,9 @@
 Name: py-amsi (v1.0)
 Description: Scan strings and files using the windows antimalware interface
 Author: Olorunfemi-Ojo Tomiwa
+URL: https://github.com/Tomiwa-Ot/py-amsi
 License: MIT
-© Copyright 2022
+Copyright (c) @Tomiwa-Ot 2022
 """
 
 import os

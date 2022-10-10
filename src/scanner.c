@@ -1,19 +1,28 @@
+/**
+ *  Implementation of Windows AMSI API as a shared library(DLL)
+ * 
+ *  Author: Olorunfemi-Ojo Tomiwa
+ *  URL: https://github.com/Tomiwa-Ot
+ *  AMSI Docs: https://learn.microsoft.com/en-us/windows/win32/api/amsi
+ *  
+ *  Compile commands:
+ *  -----------------
+ *  gcc -c -fPIC scanner.c -o scanner.o   
+ *  gcc --whole-file -shared -Wl,-soname,scanner.dll -o amsiscanner.dll scanner.o C:\Windows\System32\amsi.dll
+ * 
+ */
+
 #include <stdio.h>
 #include "amsi.h"
 #pragma comment(lib, "amsi.lib")
 
-// Compile commands:
-// -----------------
-// gcc -c -fPIC scanner.c -o scanner.o   
-// gcc --whole-file -shared -Wl,-soname,scanner.dll -o amsiscanner.dll scanner.o C:\Windows\System32\amsi.dll   
 
 HAMSICONTEXT amsiContext;
 HAMSISESSION amsiSession;
 AMSI_RESULT result;
 HRESULT hr;
-// IAntimalwareProvider iap;
 
-
+// Initialise the AMSI API
 void initialize(int debug)
 {
     hr = AmsiInitialize(L"py-amsi", &amsiContext);
@@ -27,6 +36,7 @@ void initialize(int debug)
     }
 }
 
+// Opens a session within which scan requests can be correlated
 void openSession(int debug)
 {
     hr = AmsiOpenSession(amsiContext, &amsiSession);
@@ -39,13 +49,14 @@ void openSession(int debug)
     }
 }
 
-
+// Close and remove the instance of the AMSI API opened
 void terminate()
 {
     AmsiCloseSession(amsiContext, amsiSession);
     AmsiUninitialize(amsiContext);
 }
 
+// Scan string for malware
 int scanString(LPCWSTR text, LPCWSTR name, int debug)
 {
 
@@ -103,6 +114,7 @@ int scanString(LPCWSTR text, LPCWSTR name, int debug)
     return returnCode;
 }
 
+// Scan file for malware
 int scanBytes(BYTE* payload, ULONG payloadSize, LPCWSTR name, int debug)
 {
     int returnCode;

@@ -1,12 +1,12 @@
 # py-amsi
 
 py-amsi is a library that scans strings or files for malware using the Windows
-Antimalware Scan Interface (AMSI). AMSI is an interface native to Windows 
+Antimalware Scan Interface (AMSI) API. AMSI is an interface native to Windows 
 that allows applications to ask the antivirus installed on the system
 to analyse a file/string. AMSI is not tied to Windows Defender. Antivirus
 providers implement the AMSI interface to receive calls from applications.
-This library takes advantage of the interface to make antivirus scans
-in python.
+This library takes advantage of the API to make antivirus scans in python.
+Read more about the Windows AMSI API [here](https://learn.microsoft.com/en-us/windows/win32/amsi/antimalware-scan-interface-portal).
 
 ## Installation
 - Via pip
