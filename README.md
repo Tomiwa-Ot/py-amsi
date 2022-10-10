@@ -39,3 +39,30 @@ amsi.scan_string(string, string_name, debug=False) # debug is optional and False
 #     'Message' : 'File is clean' // Response message
 # }
 ```
+
+<table>
+    <tr>
+        <th>Risk Level</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>0</td>
+        <td>AMSI_RESULT_CLEAN (File is clean)</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>AMSI_RESULT_NOT_DETECTED (No threat detected)</td>
+    </tr>
+    <tr>
+        <td>16384</td>
+        <td>AMSI_RESULT_BLOCKED_BY_ADMIN_START (Threat is blocked by the administrator)</td>
+    </tr>
+    <tr>
+        <td>20479</td>
+        <td>AMSI_RESULT_BLOCKED_BY_ADMIN_END (Threat is blocked by the administrator)</td>
+    </tr>
+    <tr>
+        <td>32768</td>
+        <td>AMSI_RESULT_DETECTED (File is considered malware)</td>
+    </tr>
+</table>
