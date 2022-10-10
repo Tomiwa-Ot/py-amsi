@@ -10,6 +10,7 @@
  *  gcc -c -fPIC scanner.c -o scanner.o   
  *  gcc --whole-file -shared -Wl,-soname,scanner.dll -o amsiscanner.dll scanner.o C:\Windows\System32\amsi.dll
  * 
+ *  N.B: amsi.lib & amsi.h must be in the same directory as this file when compiling
  */
 
 #include <stdio.h>
