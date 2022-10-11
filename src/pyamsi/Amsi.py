@@ -10,7 +10,6 @@ Copyright (c) @Tomiwa-Ot 2022
 """
 
 import os
-import sys
 import ctypes
 
 # AMSI return codes & their meanings
