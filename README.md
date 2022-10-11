@@ -12,7 +12,7 @@ Read more about the Windows AMSI API [here](https://learn.microsoft.com/en-us/wi
 - Via pip
   
   ```
-  pip install py-amsi
+  pip install pyamsi
   ```
 - Clone repository
 

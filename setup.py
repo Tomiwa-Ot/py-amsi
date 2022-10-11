@@ -8,7 +8,7 @@ with open('README.md', 'r', encoding = 'utf-8') as fh:
     long_description = fh.read()
 
 setup(
-    name='py-amsi',
+    name='pyamsi',
     version=VERSION,
     license='MIT',
     author="Olorunfemi-Ojo Tomiwa",
