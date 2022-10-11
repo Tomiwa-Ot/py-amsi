@@ -38,6 +38,7 @@ dll = ctypes.CDLL(os.path.join(
     'amsiscanner.dll'
 ))
 
+
 def scan_file(path, debug=False):
     """
     Scans a buffer-full content for malware
@@ -54,12 +55,12 @@ def scan_file(path, debug=False):
     """
     if not os.path.exists(path):
         raise Exception(f'No such file: {path}')
+    result = dll.scanBytes(path, os.path.basename(path), int(debug))
     file = open(path, 'rb')
-    file_bytes = file.read()
-    file.close()
-    result = dll.scanBytes(str(file_bytes), len(str(file_bytes)), os.path.basename(path), int(debug))
+    data = file.read()
+    file.close
     return {
-        "Sample size" : len(str(file_bytes)),
+        "Sample size" : len(bytearray(data)),
         "Risk Level" : result,
         "Message" : MESSAGE[result]
     }

@@ -14,6 +14,7 @@
  */
 
 #include <stdio.h>
+#include <fileapi.h>
 #include "amsi.h"
 #pragma comment(lib, "amsi.lib")
 
@@ -116,25 +117,22 @@ int scanString(LPCWSTR text, LPCWSTR name, int debug)
 }
 
 // Scan file for malware
-int scanBytes(BYTE* payload, ULONG payloadSize, LPCWSTR name, int debug)
+int scanBytes(LPCTSTR path, LPCWSTR name, int debug)
 {
     int returnCode;
     
     initialize(debug);
     openSession(debug);
 
-    // FILE *fileptr;
-    // char *buffer;
-    // long filelen;
+    HANDLE hFile = CreateFileA(path, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+    DWORD dwFileSize = GetFileSize(hFile, NULL);
+    BYTE* buffer = (BYTE*) VirtualAlloc(NULL, dwFileSize, MEM_COMMIT, PAGE_READWRITE);
+    DWORD dwBytesRead;
+    ReadFile(hFile, buffer, dwFileSize, &dwBytesRead, NULL);
+    CloseHandle(hFile);
 
-    // fileptr = fopen(path, "rb"); // Open the file in binary mode
-    // fseek(fileptr, 0, SEEK_END); // Jump to the end of the file
-    // filelen = ftell(fileptr); // Get the current byte offset in the file
-    // buffer = (char *)malloc(filelen * sizeof(char)); // Enough memory for the file
-    // fread(buffer, filelen, 1, fileptr); // Read the entire file
-    // fclose(fileptr); // Close file
     
-    hr = AmsiScanBuffer(amsiContext, payload, payloadSize, name, amsiSession, &result);
+    hr = AmsiScanBuffer(amsiContext, buffer, dwFileSize, name, amsiSession, &result);
     if (FAILED(hr))
     {
         if (debug == 1)
@@ -180,4 +178,3 @@ int scanBytes(BYTE* payload, ULONG payloadSize, LPCWSTR name, int debug)
     terminate();
     return returnCode;
 }
-

@@ -34,7 +34,7 @@ amsi.scan_string(string, string_name, debug=False) # debug is optional and False
 
 # Both functions return a dictionary of the format
 # {
-#     'Sample Size' : 68,         // The string/file size
+#     'Sample Size' : 68,         // The string/file size in bytes
 #     'Risk Level' : 0,           // The risk level as suggested by the antivirus
 #     'Message' : 'File is clean' // Response message
 # }
