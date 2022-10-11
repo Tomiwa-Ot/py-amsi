@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-Name: py-amsi (v1.0)
+Name: py-amsi (v1.1)
 Description: Scan strings and files using the windows antimalware interface
 Author: Olorunfemi-Ojo Tomiwa
 URL: https://github.com/Tomiwa-Ot/py-amsi
