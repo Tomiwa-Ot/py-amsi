@@ -124,6 +124,7 @@ int scanBytes(LPCTSTR path, LPCWSTR name, int debug)
     initialize(debug);
     openSession(debug);
 
+    // Read bytes from file and the bytes size
     HANDLE hFile = CreateFileA(path, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
     DWORD dwFileSize = GetFileSize(hFile, NULL);
     BYTE* buffer = (BYTE*) VirtualAlloc(NULL, dwFileSize, MEM_COMMIT, PAGE_READWRITE);
