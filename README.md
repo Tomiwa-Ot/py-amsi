@@ -24,13 +24,13 @@ Read more about the Windows AMSI API [here](https://learn.microsoft.com/en-us/wi
 
 ## Usage
 ```python
-from pyamsi import amsi
+from pyamsi import Amsi
 
 # Scan a file
-amsi.scan_file(file_path, debug=True) # debug is optional and False by default
+Amsi.scan_file(file_path, debug=True) # debug is optional and False by default
 
 # Scan string
-amsi.scan_string(string, string_name, debug=False) # debug is optional and False by default
+Amsi.scan_string(string, string_name, debug=False) # debug is optional and False by default
 
 # Both functions return a dictionary of the format
 # {
