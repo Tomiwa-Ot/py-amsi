@@ -68,3 +68,4 @@ Amsi.scan_string(string, string_name, debug=False) # debug is optional and False
 </table>
 
 ## Docs
+https://tomiwa-ot.github.io/py-amsi/index.html
