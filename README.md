@@ -66,3 +66,5 @@ Amsi.scan_string(string, string_name, debug=False) # debug is optional and False
         <td>AMSI_RESULT_DETECTED (File is considered malware)</td>
     </tr>
 </table>
+
+## Docs
